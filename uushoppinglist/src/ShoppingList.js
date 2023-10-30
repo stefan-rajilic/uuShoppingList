@@ -38,6 +38,10 @@ const ShoppingList = () => {
     });
   };
 
+  const handleCreateList = () => {
+    console.log(shoppingList)
+  }
+
   const handleAddItem = () => {
     const newItems = [...shoppingList.Items, { name: "", quantity: 1 }];
     setShoppingList({
@@ -136,7 +140,7 @@ const [userName, setUserName] = useState("");
         </button>
       </div>
 
-      <div className="actions">
+      
       <div className="actions">
         <button
           type="button"
@@ -169,6 +173,7 @@ const [userName, setUserName] = useState("");
         <button
           className="create-list btn"
           style={{ backgroundColor: "green", color: "white" }}
+          onClick={handleCreateList}
         >
           Vytvořit seznam
         </button>
@@ -219,7 +224,7 @@ const [userName, setUserName] = useState("");
         )}
       </div>
       </div>
-    </div>
+    
   );
 };
 
