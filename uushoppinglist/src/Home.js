@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 import React, { useState } from 'react';
 import NewListModal from './NewListModal'; // Importujte komponentu NewListModal
 
+
+
 const Home = ({ shoppingLists, onDeleteList, setShoppingLists }) => {
   const [showArchived, setShowArchived] = useState(false);
   const [showCreateListModal, setShowCreateListModal] = useState(false); // State pro otevření modálního okna

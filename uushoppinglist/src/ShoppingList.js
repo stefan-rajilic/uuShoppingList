@@ -26,6 +26,7 @@ const ShoppingList = ({ shoppingLists }) => {
     });
   };
 
+
   const handleRemoveMember = (index) => {
     const newMembers = [...shoppingList.Members];
     newMembers.splice(index, 1);

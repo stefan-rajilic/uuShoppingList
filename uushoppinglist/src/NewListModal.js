@@ -66,6 +66,7 @@ const NewListModal = ({ showModal, onClose, createNewList }) => {
                     onChange={(e) => handleItemChange(index, e)}
                   />
                 </div>
+
               ))}
               <button type="button" className="btn btn-primary" onClick={handleAddItem}>
                 Přidat položku
