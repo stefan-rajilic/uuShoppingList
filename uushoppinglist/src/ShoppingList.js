@@ -48,6 +48,22 @@ const ShoppingList = ({ shoppingLists }) => {
     });
   };
 
+  const handleMarkItemAsDone = (index) => {
+    const newItems = shoppingList.Items.map((item, i) => {
+      if (i === index) {
+        console.log("item done:" + item.name)
+        return { ...item, isCompleted: true };
+
+      }
+
+      return item;
+    });
+    setShoppingList({
+      ...shoppingList,
+      Items: newItems,
+    });
+  };
+
   const handleArchive = () => {
     setShoppingList({
       ...shoppingList,
@@ -113,15 +129,24 @@ const ShoppingList = ({ shoppingLists }) => {
                   defaultValue={item.name}
                   className="form-control mr-2"
                 />
-                <input
-                  type="number"
-                  defaultValue={item.quantity}
-                  style={{ marginRight: "3px" }}
-                  className="form-control w-25 mr-2"
-                />
+
+                {item.isCompleted ? (
+                  <div style={{ backgroundColor: 'green', color: 'white', padding: '5px', borderRadius: '4px', minWidth: "227px" }}>
+                    HOTOVO
+                  </div>
+                ) : (
+                  <input
+                    type="number"
+                    defaultValue={item.quantity}
+                    style={{ marginRight: "3px" }}
+                    className="form-control w-25 mr-2"
+                  />)}
                 <span style={{ marginRight: "10px" }} className="mr-2">
                   ks
                 </span>
+                <button style={{marginRight: '10px'}} className="btn btn-success" onClick={() => handleMarkItemAsDone(index)}>
+                  Hotovo
+                </button>
                 <button className="btn btn-danger" onClick={() => handleRemove(index)}>
                   Odebrat
                 </button>
