@@ -43,7 +43,6 @@ const Home = ({ shoppingLists, onDeleteList, setShoppingLists }) => {
             {showArchived ? 'Zobrazit ne-archivované' : 'Zobrazit všechny'}
           </button>
 
-          {/* Tlačítko pro otevření modálního okna na vytvoření seznamu */}
           <button style={{marginLeft: '10px'}} className="btn btn-success mb-2 ml-2" onClick={openCreateListModal}>
             Vytvořit nový seznam
           </button>
@@ -68,7 +67,6 @@ const Home = ({ shoppingLists, onDeleteList, setShoppingLists }) => {
         ))}
       </div>
 
-      {/* Modální okno pro vytvoření seznamu */}
       <NewListModal
         showModal={showCreateListModal}
         onClose={closeCreateListModal}

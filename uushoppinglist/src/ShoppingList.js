@@ -35,6 +35,10 @@ const ShoppingList = ({ shoppingLists }) => {
     });
   };
 
+  const handleCreateList = () => {
+    console.log(shoppingList)
+  }
+
   const handleAddItem = () => {
     const newItems = [...shoppingList.Items, { name: "", quantity: 1 }];
     setShoppingList({
@@ -83,7 +87,7 @@ const ShoppingList = ({ shoppingLists }) => {
 
   return (
     <div className="shopping-list">
-      <div className="text-center"> {/* Přidáno zarovnání nadpisu a tlačítka */}
+      <div className="text-center">
         <input
           type="text"
           defaultValue={shoppingList.Name}
@@ -128,7 +132,7 @@ const ShoppingList = ({ shoppingLists }) => {
           </button>
         </div>
 
-        <div className="actions d-flex justify-content-center"> {/* Přidáno zarovnání tlačítek */}
+        <div className="actions d-flex justify-content-center">
           <button
             type="button"
             className="btn btn-primary"
@@ -161,52 +165,14 @@ const ShoppingList = ({ shoppingLists }) => {
             Smazat položky
           </button>
         </div>
-        {/* Modální okno pro přidání uživatele */}
-        {showModal && (
-          <div className="modal show" style={{ display: "block" }}>
-            <div className="modal-dialog">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h5 className="modal-title">Přidat uživatele</h5>
-                </div>
-                <div className="modal-body">
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Jméno uživatele"
-                    value={userName}
-                    onChange={(e) => setUserName(e.target.value)}
-                  />
-                  <div className="mt-3">
-                    {shoppingList.Members.map((member, index) => (
-                      <div className="d-flex align-items-center mb-2" key={index}>
-                        <span className="mr-3">{member.name}</span>
-                        <button className="btn btn-danger btn-sm" onClick={() => handleRemoveMember(index)}>
-                          Odebrat
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                  {/* Můžete přidat další formulářové prvky podle potřeby */}
-                </div>
-                <div className="modal-footer">
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    onClick={() => setShowModal(false)}
-                  >
-                    Zavřít
-                  </button>
-                  <button type="button" className="btn btn-primary" onClick={() => addUser(userName)}>
-                    Přidat
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
+
+
+
     </div>
+
+      </div>
+
+
   );
 };
 
