@@ -1,24 +1,21 @@
 import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 
-const ShoppingList = () => {
-  const [shoppingList, setShoppingList] = useState({
-    id: "1",
-    Name: "Rodinný nákup",
-    Owner: "Marek Proche",
-    Members: [
-      { name: "Petr" },
-      { name: "Filip" },
-    ],
-    Items: [
-      { name: "Mléko", quantity: 2 },
-      { name: "Chléb", quantity: 1 },
-      { name: "Jablká", quantity: 5 },
-      { name: "Cukr", quantity: 1 },
-      { name: "Vajíčka", quantity: 12 },
-    ],
+const ShoppingList = ({ shoppingLists }) => {
+  const { id } = useParams();
+  const selectedList = shoppingLists.find((list) => list.id === id);
+
+  const [shoppingList, setShoppingList] = useState(selectedList || {
+    id: "",
+    Name: "",
+    Owner: "",
+    Members: [],
+    Items: [],
     Archived: false,
-    Done: false,
   });
+
+  const [userName, setUserName] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   const handleRemove = (index) => {
     const newItems = [...shoppingList.Items];
@@ -30,11 +27,11 @@ const ShoppingList = () => {
   };
 
   const handleRemoveMember = (index) => {
-    const newItems = [...shoppingList.Members];
-    newItems.splice(index, 1);
+    const newMembers = [...shoppingList.Members];
+    newMembers.splice(index, 1);
     setShoppingList({
       ...shoppingList,
-      Members: newItems,
+      Members: newMembers,
     });
   };
 
@@ -56,10 +53,10 @@ const ShoppingList = () => {
 
   const handleMarkAsDone = () => {
     setShoppingList({
-        ...shoppingList,
-        Done: true,
-      });
-      console.log(shoppingList.Done);
+      ...shoppingList,
+      Done: true,
+    });
+    console.log(shoppingList.Done);
   };
 
   const handleDeleteList = () => {
@@ -70,108 +67,100 @@ const ShoppingList = () => {
       Owner: "",
       Members: [],
       Items: [],
-      Archived: false
+      Archived: false,
     });
     console.log(shoppingList);
-};
-
-const [userName, setUserName] = useState("");
-
-
+  };
 
   const addUser = (userName) => {
-    const newMembers = [...shoppingList.Members, { name: userName}];
+    const newMembers = [...shoppingList.Members, { name: userName }];
     setShoppingList({
       ...shoppingList,
       Members: newMembers,
     });
-    console.log(shoppingList.Members)
-  }
-
-  const [showModal, setShowModal] = useState(false);
+    console.log(shoppingList.Members);
+  };
 
   return (
     <div className="shopping-list">
-      <input
-        type="text"
-        defaultValue={shoppingList.Name}
-        style={{
-          fontSize: "24px",
-          fontWeight: "bold",
-          border: "1px solid grey",
-          borderRadius: "100px",
-          marginTop: "30px",
-          outline: "none",
-          backgroundColor: "transparent",
-          textAlign: "center",
-        }}
-      />
-      <div className="container mt-5">
-        <div className="list-items">
-          {shoppingList.Items.map((item, index) => (
-            <div className="list-item mb-3 d-flex align-items-center" key={index}>
-              <input
-                type="text"
-                style={{ marginRight: "10px" }}
-                defaultValue={item.name}
-                className="form-control mr-2"
-              />
-              <input
-                type="number"
-                defaultValue={item.quantity}
-                style={{ marginRight: "3px" }}
-                className="form-control w-25 mr-2"
-              />
-              <span style={{ marginRight: "10px" }} className="mr-2">
-                ks
-              </span>
-              <button className="btn btn-danger" onClick={() => handleRemove(index)}>
-                Odebrat
-              </button>
-            </div>
-          ))}
+      <div className="text-center"> {/* Přidáno zarovnání nadpisu a tlačítka */}
+        <input
+          type="text"
+          defaultValue={shoppingList.Name}
+          style={{
+            fontSize: "24px",
+            fontWeight: "bold",
+            border: "1px solid grey",
+            borderRadius: "100px",
+            marginTop: "30px",
+            outline: "none",
+            backgroundColor: "transparent",
+            textAlign: "center",
+          }}
+        />
+        <div className="container mt-5">
+          <div className="list-items">
+            {shoppingList.Items.map((item, index) => (
+              <div className="list-item mb-3 d-flex align-items-center" key={index}>
+                <input
+                  type="text"
+                  style={{ marginRight: "10px" }}
+                  defaultValue={item.name}
+                  className="form-control mr-2"
+                />
+                <input
+                  type="number"
+                  defaultValue={item.quantity}
+                  style={{ marginRight: "3px" }}
+                  className="form-control w-25 mr-2"
+                />
+                <span style={{ marginRight: "10px" }} className="mr-2">
+                  ks
+                </span>
+                <button className="btn btn-danger" onClick={() => handleRemove(index)}>
+                  Odebrat
+                </button>
+              </div>
+            ))}
+          </div>
+          <button style={{ marginBottom: "10px" }} className="btn btn-primary mt-3" onClick={handleAddItem}>
+            Přidat položku
+          </button>
         </div>
-        <button style={{ marginBottom: "10px" }} className="btn btn-primary mt-3" onClick={handleAddItem}>
-          Přidat položku
-        </button>
-      </div>
 
-      <div className="actions">
-      <div className="actions">
-        <button
-          type="button"
-          className="btn btn-primary"
-          onClick={() => setShowModal(true)}
-        >
-          Přidat uživatele
-        </button>
-        <button
-          type="button"
-          className="btn btn-success"
-          onClick={handleMarkAsDone}
-        >
-          Označit jako hotové
-        </button>
-        <button
-          type="button"
-          className="btn btn-warning"
-          onClick={handleArchive}
-        >
-          Archivovat
-        </button>
-        <button
-          type="button"
-          className="btn btn-danger"
-          onClick={handleDeleteList}
-        >
-          Smazat List
-        </button>
-        <button
-          className="create-list btn"
-          style={{ backgroundColor: "green", color: "white" }}
-        >
-          Vytvořit seznam
-        </button>
+        <div className="actions d-flex justify-content-center"> {/* Přidáno zarovnání tlačítek */}
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={() => setShowModal(true)}
+          >
+            Přidat uživatele
+          </button>
+          <button
+            type="button"
+            className="btn btn-success"
+            onClick={handleMarkAsDone}
+            style={{marginLeft: '10px'}}
+          >
+            Označit jako hotové
+          </button>
+          <button
+            type="button"
+            className="btn btn-warning"
+            onClick={handleArchive}
+            style={{marginLeft: '10px'}}
+          >
+            Archivovat
+          </button>
+          <button
+            type="button"
+            className="btn btn-danger"
+            onClick={handleDeleteList}
+            style={{marginLeft: '10px'}}
+          >
+            Smazat položky
+          </button>
+        </div>
         {/* Modální okno pro přidání uživatele */}
         {showModal && (
           <div className="modal show" style={{ display: "block" }}>
@@ -181,30 +170,29 @@ const [userName, setUserName] = useState("");
                   <h5 className="modal-title">Přidat uživatele</h5>
                 </div>
                 <div className="modal-body">
-  <input
-    type="text"
-    className="form-control"
-    placeholder="Jméno uživatele"
-    value={userName}
-    onChange={(e) => setUserName(e.target.value)}
-  />
-  <div className="mt-3">
-    {shoppingList.Members.map((member, index) => (
-      <div className="d-flex align-items-center mb-2" key={index}>
-        <span className="mr-3">{member.name}</span>
-        <button className="btn btn-danger btn-sm" onClick={() => handleRemoveMember(index)}>
-          Odebrat
-        </button>
-      </div>
-    ))}
-  </div>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Jméno uživatele"
+                    value={userName}
+                    onChange={(e) => setUserName(e.target.value)}
+                  />
+                  <div className="mt-3">
+                    {shoppingList.Members.map((member, index) => (
+                      <div className="d-flex align-items-center mb-2" key={index}>
+                        <span className="mr-3">{member.name}</span>
+                        <button className="btn btn-danger btn-sm" onClick={() => handleRemoveMember(index)}>
+                          Odebrat
+                        </button>
+                      </div>
+                    ))}
+                  </div>
                   {/* Můžete přidat další formulářové prvky podle potřeby */}
                 </div>
                 <div className="modal-footer">
                   <button
                     type="button"
                     className="btn btn-secondary"
-                    
                     onClick={() => setShowModal(false)}
                   >
                     Zavřít
@@ -217,7 +205,6 @@ const [userName, setUserName] = useState("");
             </div>
           </div>
         )}
-      </div>
       </div>
     </div>
   );

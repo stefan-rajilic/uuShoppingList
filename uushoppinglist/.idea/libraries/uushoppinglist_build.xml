@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="uushoppinglist-build">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/uushoppinglist-build.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
