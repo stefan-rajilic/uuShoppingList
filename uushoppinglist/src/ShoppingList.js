@@ -1,5 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
+const UserModal = ({ show, onClose, addUser }) => {
+  const [userName, setUserName] = useState('');
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    addUser(userName);
+    onClose();
+  };
+
+  if (!show) {
+    return null;
+  }
+
+  return (
+    <div className="modal show" style={{ display: 'block' }}>
+      <div className="modal-dialog">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title">Přidat uživatele</h5>
+            <button type="button" className="close" onClick={onClose}>
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div className="modal-body">
+            <form onSubmit={handleSubmit}>
+              <input 
+                type="text" 
+                className="form-control" 
+                value={userName} 
+                onChange={(e) => setUserName(e.target.value)} 
+                placeholder="Jméno uživatele" 
+              />
+              <button type="submit" className="btn btn-primary mt-2">Přidat</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const ShoppingList = ({ shoppingLists }) => {
   const { id } = useParams();
@@ -14,94 +54,160 @@ const ShoppingList = ({ shoppingLists }) => {
     Archived: false,
   });
 
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState('');
+
   const [userName, setUserName] = useState("");
   const [showModal, setShowModal] = useState(false);
 
-  const handleRemove = (index) => {
-    const newItems = [...shoppingList.Items];
-    newItems.splice(index, 1);
-    setShoppingList({
-      ...shoppingList,
-      Items: newItems,
-    });
-  };
+  useEffect(() => {
+    // Simulace načítání seznamu nákupů
+    setTimeout(() => {
+      const selectedList = shoppingLists.find((list) => list.id === id);
+      if (selectedList) {
+        setShoppingList(selectedList);
+      } else {
+        setError('Seznam nenalezen');
+      }
+      setIsLoading(false);
+    }, 1000);
+  }, [id, shoppingLists]);
 
-
-  const handleRemoveMember = (index) => {
-    const newMembers = [...shoppingList.Members];
-    newMembers.splice(index, 1);
-    setShoppingList({
-      ...shoppingList,
-      Members: newMembers,
-    });
-  };
-
-  const handleCreateList = () => {
-    console.log(shoppingList)
+  if (isLoading) {
+    return <div>Loading...</div>;
   }
 
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  const handleRemove = (index) => {
+    try {
+      setTimeout(() => {
+        const newItems = [...shoppingList.Items];
+        newItems.splice(index, 1);
+        setShoppingList({
+          ...shoppingList,
+          Items: newItems,
+        });
+      }, 1000);
+    } catch (error) {
+      console.error('Chyba při mazání položky:', error);
+    }
+  };
+  
+  const handleRemoveMember = (index) => {
+    try {
+      setTimeout(() => {
+        const newMembers = [...shoppingList.Members];
+        newMembers.splice(index, 1);
+        setShoppingList({
+          ...shoppingList,
+          Members: newMembers,
+        });
+      }, 1000);
+    } catch (error) {
+      console.error('Chyba při mazání člena:', error);
+    }
+  };
+  
+  const handleCreateList = () => {
+    try {
+      setTimeout(() => {
+        console.log('Seznam vytvořen:', shoppingList);
+      }, 1000);
+    } catch (error) {
+      console.error('Chyba při vytváření seznamu:', error);
+    }
+  };
+  
   const handleAddItem = () => {
-    const newItems = [...shoppingList.Items, { name: "", quantity: 1 }];
-    setShoppingList({
-      ...shoppingList,
-      Items: newItems,
-    });
+    try {
+      setTimeout(() => {
+        const newItems = [...shoppingList.Items, { name: "", quantity: 1 }];
+        setShoppingList({
+          ...shoppingList,
+          Items: newItems,
+        });
+      }, 1000);
+    } catch (error) {
+      console.error('Chyba při přidávání položky:', error);
+    }
   };
-
+  
   const handleMarkItemAsDone = (index) => {
-    const newItems = shoppingList.Items.map((item, i) => {
-      if (i === index) {
-        console.log("item done:" + item.name)
-        return { ...item, isCompleted: true };
-
-      }
-
-      return item;
-    });
-    setShoppingList({
-      ...shoppingList,
-      Items: newItems,
-    });
+    try {
+      setTimeout(() => {
+        const newItems = shoppingList.Items.map((item, i) => {
+          if (i === index) {
+            return { ...item, isCompleted: true };
+          }
+          return item;
+        });
+        setShoppingList({
+          ...shoppingList,
+          Items: newItems,
+        });
+      }, 1000);
+    } catch (error) {
+      console.error('Chyba při označování položky jako hotové:', error);
+    }
   };
-
+  
   const handleArchive = () => {
-    setShoppingList({
-      ...shoppingList,
-      Archived: true,
-    });
-    console.log(shoppingList.Archived);
+    try {
+      setTimeout(() => {
+        setShoppingList({
+          ...shoppingList,
+          Archived: true,
+        });
+      }, 1000);
+    } catch (error) {
+      console.error('Chyba při archivování seznamu:', error);
+    }
   };
-
+  
   const handleMarkAsDone = () => {
-    setShoppingList({
-      ...shoppingList,
-      Done: true,
-    });
-    console.log(shoppingList.Done);
+    try {
+      setTimeout(() => {
+        setShoppingList({
+          ...shoppingList,
+          Done: true,
+        });
+      }, 1000);
+    } catch (error) {
+      console.error('Chyba při označování seznamu jako hotové:', error);
+    }
   };
-
+  
   const handleDeleteList = () => {
-    console.log("List deleted.");
-    setShoppingList({
-      id: "",
-      Name: "",
-      Owner: "",
-      Members: [],
-      Items: [],
-      Archived: false,
-    });
-    console.log(shoppingList);
+    try {
+      setTimeout(() => {
+        setShoppingList({
+          id: "",
+          Name: "",
+          Owner: "",
+          Members: [],
+          Items: [],
+          Archived: false,
+        });
+      }, 1000);
+    } catch (error) {
+      console.error('Chyba při mazání seznamu:', error);
+    }
   };
-
-  const addUser = (userName) => {
-    const newMembers = [...shoppingList.Members, { name: userName }];
+  
+  // Přidání nového uživatele
+  const addUserToList = (newUserName) => {
+    const newMembers = [...shoppingList.Members, { name: newUserName }];
     setShoppingList({
       ...shoppingList,
       Members: newMembers,
     });
-    console.log(shoppingList.Members);
+    setShowModal(false);
   };
 
+  
   return (
     <div className="shopping-list">
       <div className="text-center">
@@ -144,7 +250,7 @@ const ShoppingList = ({ shoppingLists }) => {
                 <span style={{ marginRight: "10px" }} className="mr-2">
                   ks
                 </span>
-                <button style={{marginRight: '10px'}} className="btn btn-success" onClick={() => handleMarkItemAsDone(index)}>
+                <button style={{ marginRight: '10px' }} className="btn btn-success" onClick={() => handleMarkItemAsDone(index)}>
                   Hotovo
                 </button>
                 <button className="btn btn-danger" onClick={() => handleRemove(index)}>
@@ -166,11 +272,16 @@ const ShoppingList = ({ shoppingLists }) => {
           >
             Přidat uživatele
           </button>
+          <UserModal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        addUser={addUserToList}
+      />
           <button
             type="button"
             className="btn btn-success"
             onClick={handleMarkAsDone}
-            style={{marginLeft: '10px'}}
+            style={{ marginLeft: '10px' }}
           >
             Označit jako hotové
           </button>
@@ -178,7 +289,7 @@ const ShoppingList = ({ shoppingLists }) => {
             type="button"
             className="btn btn-warning"
             onClick={handleArchive}
-            style={{marginLeft: '10px'}}
+            style={{ marginLeft: '10px' }}
           >
             Archivovat
           </button>
@@ -186,7 +297,7 @@ const ShoppingList = ({ shoppingLists }) => {
             type="button"
             className="btn btn-danger"
             onClick={handleDeleteList}
-            style={{marginLeft: '10px'}}
+            style={{ marginLeft: '10px' }}
           >
             Smazat položky
           </button>
@@ -194,9 +305,9 @@ const ShoppingList = ({ shoppingLists }) => {
 
 
 
-    </div>
-
       </div>
+
+    </div>
 
 
   );

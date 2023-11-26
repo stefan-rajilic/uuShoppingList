@@ -1,37 +1,72 @@
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import React, { useState } from 'react';
-import NewListModal from './NewListModal'; // Importujte komponentu NewListModal
+import NewListModal from './NewListModal';
+import { shoppingListData } from '../src/ShoppingListsData';
 
-
-
-const Home = ({ shoppingLists, onDeleteList, setShoppingLists }) => {
+const Home = () => {
+  const [shoppingLists, setShoppingLists] = useState([]);
   const [showArchived, setShowArchived] = useState(false);
-  const [showCreateListModal, setShowCreateListModal] = useState(false); // State pro otevření modálního okna
-  const [newListName, setNewListName] = useState(''); // State pro název nového seznamu
+  const [showCreateListModal, setShowCreateListModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [newListName, setNewListName] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleToggleArchived = () => {
-    setShowArchived(!showArchived);
+
+  useEffect(() => {
+    setIsLoading(true);
+    // Simulace načítání dat ze serveru
+    setTimeout(() => {
+      // Přidání simulace potenciální chyby
+      if (Math.random() > 0.8) { // 20% šance na chybu
+        setError('Chyba při načítání dat');
+        setIsLoading(false);
+      } else {
+        setShoppingLists(shoppingListData);
+        setIsLoading(false);
+      }
+    }, 1000);
+  }, []);
+
+  const onDeleteList = (listId) => {
+    // Předpokládám, že mazání proběhlo úspěšně
+    setTimeout(() => {
+      try {
+        // Předpokládejme, že se vytvoření seznamu podařilo
+        setShoppingLists(shoppingLists.filter(list => list.id !== listId));
+      } catch (err) {
+        setError('Chyba při vytváření seznamu');
+      }
+      setIsSubmitting(false);
+    }, 1000);
   };
 
-  const filteredLists = showArchived
-    ? shoppingLists
-    : shoppingLists.filter((list) => !list.Archived);
+  const createNewList = (newList) => {
+    newList.id = Date.now().toString();
+    setShoppingLists([...shoppingLists, newList]);
+    setShowCreateListModal(false);
+  };
 
-  // Funkce pro otevření modálního okna na vytvoření seznamu
   const openCreateListModal = () => {
     setShowCreateListModal(true);
   };
 
-  const createNewList = (newList) => {
-    setShoppingLists([...shoppingLists, { ...newList, id: Date.now().toString() }]);
-    closeCreateListModal();
-  };
-
-  // Funkce pro zavření modálního okna na vytvoření seznamu
   const closeCreateListModal = () => {
     setShowCreateListModal(false);
-    setNewListName(''); // Resetování názvu nového seznamu
+    setNewListName('');
   };
+
+  const handleToggleArchived = () => setShowArchived(!showArchived);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  const filteredLists = showArchived ? shoppingLists : shoppingLists.filter(list => !list.Archived);
 
   return (
     <div className="container mt-4 text-center">
@@ -45,7 +80,10 @@ const Home = ({ shoppingLists, onDeleteList, setShoppingLists }) => {
             {showArchived ? 'Zobrazit ne-archivované' : 'Zobrazit všechny'}
           </button>
 
-          <button style={{marginLeft: '10px'}} className="btn btn-success mb-2 ml-2" onClick={openCreateListModal}>
+          {error && <div className="alert alert-danger">{error}</div>}
+          {isSubmitting && <div className="text-center"><p>Ukládání...</p></div>}
+
+          <button style={{ marginLeft: '10px' }} className="btn btn-success mb-2 ml-2" onClick={openCreateListModal}>
             Vytvořit nový seznam
           </button>
         </div>
@@ -54,7 +92,7 @@ const Home = ({ shoppingLists, onDeleteList, setShoppingLists }) => {
             <div className="card">
               <div className="card-body">
                 <h5 className="card-title">{list.Name}</h5>
-                <Link  style={{marginBottom: '10px'}} to={`/shoppinglist/${list.id}`} className="btn btn-primary">
+                <Link style={{ marginRight: '10px' }} to={`/shoppinglist/${list.id}`} className="btn btn-primary">
                   Zobrazit nákupní seznam
                 </Link>
                 <button

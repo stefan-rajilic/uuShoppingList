@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 const NewListModal = ({ showModal, onClose, createNewList }) => {
   const [listName, setListName] = useState('');
   const [items, setItems] = useState([{ name: '', quantity: 1 }]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState('');
 
   const handleItemChange = (index, event) => {
     const newItems = items.map((item, i) =>
@@ -17,13 +19,25 @@ const NewListModal = ({ showModal, onClose, createNewList }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    createNewList({ id: Date.now().toString(), Name: listName, Items: items, Archived: false, Done: false });
-    onClose();
+    setIsSubmitting(true);
+    setError('');
+
+    setTimeout(() => {
+      try {
+        createNewList({ id: Date.now().toString(), Name: listName, Items: items, Archived: false, Done: false });
+        onClose();
+      } catch (err) {
+        setError('Chyba při vytváření seznamu');
+      }
+      setIsSubmitting(false);
+    }, 1000);
   };
 
   if (!showModal) {
     return null;
   }
+
+
 
   return (
     <div className="modal show" style={{ display: 'block' }}>
