@@ -1,4 +1,6 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+
 
 const ShoppingListHeader = ({ name }) => {
     return (
@@ -18,6 +20,5 @@ const ShoppingListHeader = ({ name }) => {
       />
     );
   };
-  
+
   export default ShoppingListHeader;
-  

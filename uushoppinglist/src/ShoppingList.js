@@ -4,6 +4,9 @@ import ShoppingListHeader from './ShoppingListHeader';
 import ShoppingListItem from './ShoppingListItem';
 import ShoppingListActions from '../src/ShoppingListAction';
 import UserModal from './UserModal';
+import "../src/Responsivity.css";
+import {useTranslation} from "react-i18next";
+
 
 const ShoppingList = ({ shoppingLists }) => {
   const { id } = useParams();
@@ -22,6 +25,8 @@ const ShoppingList = ({ shoppingLists }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const { t } = useTranslation();
+
 
   useEffect(() => {
     setTimeout(() => {
@@ -36,7 +41,7 @@ const ShoppingList = ({ shoppingLists }) => {
   }, [id, shoppingLists]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div>{t('loading')}</div>;
   }
 
   if (error) {
@@ -95,7 +100,9 @@ const ShoppingList = ({ shoppingLists }) => {
   return (
     <div className="shopping-list">
       <div className="text-center">
-        <ShoppingListHeader name={shoppingList.Name} />
+        <div className="shopping-list-header">
+          <ShoppingListHeader name={shoppingList.Name} />
+        </div>
         <div className="container mt-5">
           <div className="list-items">
             {shoppingList.Items.map((item, index) => (
@@ -108,13 +115,16 @@ const ShoppingList = ({ shoppingLists }) => {
             ))}
           </div>
         </div>
-        <ShoppingListActions
-          onAddItem={handleAddItem}
-          onShowModal={() => setShowModal(true)}
-          onMarkAsDone={handleMarkAsDone}
-          onArchive={handleArchive}
-          onDelete={handleDeleteList}
-        />
+        <div className="actions">
+          <ShoppingListActions
+            onAddItem={handleAddItem}
+            onShowModal={() => setShowModal(true)}
+            onMarkAsDone={handleMarkAsDone}
+            onArchive={handleArchive}
+            onDelete={handleDeleteList}
+          />
+        </div>
+
         <UserModal
           show={showModal}
           onClose={() => setShowModal(false)}

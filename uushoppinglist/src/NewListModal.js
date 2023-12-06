@@ -26,6 +26,9 @@ const NewListModal = ({ showModal, onClose, createNewList }) => {
       try {
         createNewList({ id: Date.now().toString(), Name: listName, Items: items, Archived: false, Done: false });
         onClose();
+        // Clearing the input fields
+        setListName('');
+        setItems([{ name: '', quantity: 1 }]);
       } catch (err) {
         setError('Chyba při vytváření seznamu');
       }

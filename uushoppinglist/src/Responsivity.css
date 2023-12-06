@@ -1,0 +1,31 @@
+@media (max-width: 900px) {
+  .actions {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-left: 5vh;
+    margin-right: 5vh;
+  }
+
+  .actions button {
+    margin-bottom: 10px;
+    margin-left: 0px !important;
+    min-height: 8vh;
+  }
+}
+
+@media (max-width: 740px) {
+  .shopping-list-header {
+      display: flex;
+      justify-content: left;
+      padding-left: 20px;
+  }
+}
+
+@media (max-width: 540px) {
+  .shopping-list-header {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+  }
+}

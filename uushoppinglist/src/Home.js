@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import NewListModal from './NewListModal';
-import { shoppingListData } from '../src/ShoppingListsData';
+import { shoppingListData } from './ShoppingListsData';
+import useLocalStorage from "use-local-storage";
+import { useTranslation } from 'react-i18next';
+
 
 const Home = () => {
   const [shoppingLists, setShoppingLists] = useState([]);
@@ -11,7 +14,11 @@ const Home = () => {
   const [error, setError] = useState('');
   const [newListName, setNewListName] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const preference = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const [isDark, setIsDark] = useLocalStorage("isDark", preference);
 
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     setIsLoading(true);
@@ -69,22 +76,23 @@ const Home = () => {
   const filteredLists = showArchived ? shoppingLists : shoppingLists.filter(list => !list.Archived);
 
   return (
-    <div className="container mt-4 text-center">
-      <h1 className="mb-4">Dashboard</h1>
+    <div className="App" data-theme={isDark ? "dark" : "light"}>
+    <div className="container mt-4 text-center" style={{ backgroundColor: "var(--background-color)", color:  "var(--primary-text-color)"}}>
+      <h1 className="mb-4" style={{marginRight: "50px"}}>{t('dashboard')}</h1>
       <div className="row justify-content-center">
         <div className="col-md-12 mb-4">
           <button
             className={`btn btn-${showArchived ? 'secondary' : 'primary'} mb-2`}
             onClick={handleToggleArchived}
           >
-            {showArchived ? 'Zobrazit ne-archivované' : 'Zobrazit všechny'}
+            {showArchived ? t('show_archived') : t('show_all')}
           </button>
 
           {error && <div className="alert alert-danger">{error}</div>}
-          {isSubmitting && <div className="text-center"><p>Ukládání...</p></div>}
+          {isSubmitting && <div className="text-center"><p>{t('loading')}</p></div>}
 
           <button style={{ marginLeft: '10px' }} className="btn btn-success mb-2 ml-2" onClick={openCreateListModal}>
-            Vytvořit nový seznam
+            {t('create_new_list')}
           </button>
         </div>
         {filteredLists.map((list) => (
@@ -92,14 +100,15 @@ const Home = () => {
             <div className="card">
               <div className="card-body">
                 <h5 className="card-title">{list.Name}</h5>
-                <Link style={{ marginRight: '10px' }} to={`/shoppinglist/${list.id}`} className="btn btn-primary">
-                  Zobrazit nákupní seznam
+                <Link style={{ marginRight: '10px', marginBottom: "10px" }} to={`/shoppinglist/${list.id}`} className="btn btn-primary">
+                  {t('view_shopping_list')}
                 </Link>
                 <button
+                  style={{ marginBottom: "10px" }}
                   className="btn btn-danger ml-2"
                   onClick={() => onDeleteList(list.id, list.Owner)}
                 >
-                  Smazat
+                  {t('delete')}
                 </button>
               </div>
             </div>
@@ -114,6 +123,7 @@ const Home = () => {
           createNewList(newList);
         }}
       />
+    </div>
     </div>
   );
 };
