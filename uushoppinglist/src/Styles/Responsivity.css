@@ -14,13 +14,7 @@
   }
 }
 
-@media (max-width: 740px) {
-  .shopping-list-header {
-      display: flex;
-      justify-content: left;
-      padding-left: 20px;
-  }
-}
+
 
 @media (max-width: 540px) {
   .shopping-list-header {
