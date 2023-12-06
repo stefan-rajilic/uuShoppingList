@@ -25,7 +25,7 @@ const ShoppingListActions = ({ onAddItem, onShowModal, onMarkAsDone, onArchive, 
             className="btn btn-primary"
             onClick={onShowModal}
           >
-            {t('mark_as_done')}
+            {t('add_user')}
           </button>
           <button
             type="button"

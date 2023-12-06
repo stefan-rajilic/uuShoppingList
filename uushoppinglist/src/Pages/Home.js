@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import NewListModal from './NewListModal';
-import { shoppingListData } from './ShoppingListsData';
+import NewListModal from '../Components/NewListModal';
+import { shoppingListData } from '../MockData/ShoppingListsData';
 import useLocalStorage from "use-local-storage";
 import { useTranslation } from 'react-i18next';
 

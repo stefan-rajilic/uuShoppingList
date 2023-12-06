@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import {useTranslation} from "react-i18next";
 
 const NewListModal = ({ showModal, onClose, createNewList }) => {
   const [listName, setListName] = useState('');
   const [items, setItems] = useState([{ name: '', quantity: 1 }]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const { t } = useTranslation();
 
   const handleItemChange = (index, event) => {
     const newItems = items.map((item, i) =>
@@ -47,7 +49,7 @@ const NewListModal = ({ showModal, onClose, createNewList }) => {
       <div className="modal-dialog">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title">Vytvořit nový seznam</h5>
+            <h5 className="modal-title">{t('create_new_list')}</h5>
             <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={onClose}>
               <span aria-hidden="true">&times;</span>
             </button>
@@ -55,10 +57,12 @@ const NewListModal = ({ showModal, onClose, createNewList }) => {
           <div className="modal-body">
             <form onSubmit={handleSubmit}>
               <div className="form-group">
-                <label htmlFor="listName">Název seznamu:</label>
+                {/* <label htmlFor="listName">{t('shopping_list_name')}</label> */}
                 <input
                   type="text"
                   className="form-control"
+                  style={{marginBottom: "20px"}}
+                  placeholder={t('shopping_list_name')}
                   id="listName"
                   value={listName}
                   onChange={(e) => setListName(e.target.value)}
@@ -70,7 +74,7 @@ const NewListModal = ({ showModal, onClose, createNewList }) => {
                     type="text"
                     className="form-control mb-2"
                     name="name"
-                    placeholder="Název položky"
+                    placeholder={t('item_name') + " " + (index+1)}
                     value={item.name}
                     onChange={(e) => handleItemChange(index, e)}
                   />
@@ -78,7 +82,8 @@ const NewListModal = ({ showModal, onClose, createNewList }) => {
                     type="number"
                     className="form-control"
                     name="quantity"
-                    placeholder="Množství"
+                    placeholder={t('amount')}
+                    style={{marginBottom: "10px"}}
                     value={item.quantity}
                     onChange={(e) => handleItemChange(index, e)}
                   />
@@ -86,13 +91,13 @@ const NewListModal = ({ showModal, onClose, createNewList }) => {
 
               ))}
               <button type="button" className="btn btn-primary" onClick={handleAddItem}>
-                Přidat položku
+                {t('add_item')}
               </button>
             </form>
           </div>
           <div className="modal-footer">
-            <button type="button" className="btn btn-secondary" onClick={onClose}>Zavřít</button>
-            <button type="submit" className="btn btn-primary" onClick={handleSubmit}>Uložit seznam</button>
+            <button type="button" className="btn btn-secondary" onClick={onClose}>{t('close')}</button>
+            <button type="submit" className="btn btn-primary" onClick={handleSubmit}>{t('save')}</button>
           </div>
         </div>
       </div>

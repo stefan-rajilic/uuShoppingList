@@ -12,6 +12,7 @@ const resources = {
       'show_all': 'Show All',
       'create_new_list': 'Create New List',
       'view_shopping_list': 'View Shopping List',
+      'shopping_list_name': 'Shopping list name',
       'delete': 'Delete',
       'saving': 'Saving...',
       'list_not_found': 'List not found',
@@ -24,6 +25,12 @@ const resources = {
       'remove': 'Remove',
       'pieces': 'pcs',
       'done': 'Done',
+      'add': 'Add',
+      'username': 'User name',
+      'close': 'Close',
+      'save': 'Save',
+      'amount': 'Amount',
+      'item_name': 'Item name',
     }
   },
   cs: {
@@ -35,6 +42,7 @@ const resources = {
       'show_all': 'Zobrazit všechny',
       'create_new_list': 'Vytvořit nový seznam',
       'view_shopping_list': 'Zobrazit nákupní seznam',
+      'shopping_list_name': 'Jméno nákupní seznam',
       'delete': 'Smazat',
       'saving': 'Ukládání...',
       'list_not_found': 'Seznam nenalezen',
@@ -47,6 +55,12 @@ const resources = {
       'remove': 'Odebrat',
       'pieces': 'ks',
       'done': 'Hotovo',
+      'add': 'Přidat',
+      'username': 'Jméno uživatele',
+      'close': 'Zavřít',
+      'save': 'Uložit',
+      'amount': 'Množství',
+      'item_name': 'Název položky',
     }
   }
 };

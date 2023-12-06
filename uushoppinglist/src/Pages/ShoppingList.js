@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import ShoppingListHeader from './ShoppingListHeader';
-import ShoppingListItem from './ShoppingListItem';
-import ShoppingListActions from '../src/ShoppingListAction';
-import UserModal from './UserModal';
-import "../src/Responsivity.css";
+import ShoppingListHeader from '../Components/ShoppingListHeader';
+import ShoppingListItem from '../Components/ShoppingListItem';
+import ShoppingListActions from '../Components/ShoppingListAction';
+import UserModal from '../Components/UserModal';
+import "../Styles/Responsivity.css";
 import {useTranslation} from "react-i18next";
 
 

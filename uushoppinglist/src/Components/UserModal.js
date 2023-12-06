@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import {useTranslation} from "react-i18next";
 
 const UserModal = ({ show, onClose, addUser }) => {
   const [userName, setUserName] = useState('');
+  const { t } = useTranslation();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -19,22 +21,22 @@ const UserModal = ({ show, onClose, addUser }) => {
       <div className="modal-dialog">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title">Přidat uživatele</h5>
+            <h5 className="modal-title">{t('add_user')}</h5>
             <button type="button" className="close" onClick={onClose}>
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div className="modal-body">
             <form onSubmit={handleSubmit}>
-              <input 
-                type="text" 
-                className="form-control" 
-                value={userName} 
-                onChange={(e) => setUserName(e.target.value)} 
-                placeholder="Jméno uživatele"
-                required 
+              <input
+                type="text"
+                className="form-control"
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
+                placeholder={t('username')}
+                required
               />
-              <button type="submit" className="btn btn-primary mt-2">Přidat</button>
+              <button type="submit" className="btn btn-primary mt-2">{t('add')}</button>
             </form>
           </div>
         </div>

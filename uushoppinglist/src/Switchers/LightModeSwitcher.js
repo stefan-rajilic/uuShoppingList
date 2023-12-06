@@ -1,7 +1,7 @@
-import "./Toggle.css";
+import "../Styles/LightModeSwitcher.css";
 import React from 'react';
 
-export const Toggle = ({ handleChange, isChecked }) => {
+export const LightModeSwitcher = ({ handleChange, isChecked }) => {
   return (
     <div className="toggle-container">
       <input
