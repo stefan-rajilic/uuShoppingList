@@ -6,6 +6,8 @@ import ShoppingListActions from '../Components/ShoppingListAction';
 import UserModal from '../Components/UserModal';
 import "../Styles/Responsivity.css";
 import {useTranslation} from "react-i18next";
+import {shoppingListData} from "../MockData/ShoppingListsData";
+import ShoppingListPieCharts from "../Components/ShoppingListPieCharts";
 
 
 const ShoppingList = ({ shoppingLists }) => {
@@ -72,6 +74,23 @@ const ShoppingList = ({ shoppingLists }) => {
     setShoppingList({ ...shoppingList, Items: newItems });
   };
 
+  const processDataForPieChart = (items) => {
+    const totalItems = items.length;
+    const completedItems = items.filter(item => item.isCompleted).length;
+    const uncompletedItems = totalItems - completedItems;
+
+    return {
+      name: shoppingList.Name, // Ensure this is the name of the current shopping list
+      completed: completedItems,
+      uncompleted: uncompletedItems
+    };
+  };
+
+
+
+  const pieChartData = processDataForPieChart(shoppingList.Items);
+
+
   const handleArchive = () => {
     setShoppingList({ ...shoppingList, Archived: true });
   };
@@ -130,6 +149,10 @@ const ShoppingList = ({ shoppingLists }) => {
           onClose={() => setShowModal(false)}
           addUser={addUserToList}
         />
+      </div>
+
+      <div style={{display: "flex", justifyContent: "center"}}>
+        <ShoppingListPieCharts data={pieChartData} />
       </div>
     </div>
   );

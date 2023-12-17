@@ -31,6 +31,11 @@ const resources = {
       'save': 'Save',
       'amount': 'Amount',
       'item_name': 'Item name',
+      'not_completed': 'Uncompleted',
+      'total_items': 'Total items',
+      'completed_items': 'Completed items',
+
+
     }
   },
   cs: {
@@ -61,6 +66,10 @@ const resources = {
       'save': 'Uložit',
       'amount': 'Množství',
       'item_name': 'Název položky',
+      'not_completed': 'Nedokončeno',
+      'total_items': 'Celkový počet položek',
+      'completed_items': 'Dokončené položky',
+
     }
   }
 };

@@ -100,6 +100,9 @@ const Home = () => {
             <div className="card">
               <div className="card-body">
                 <h5 className="card-title">{list.Name}</h5>
+                <p>{t('total_items')}: {list.Items.length}</p> {/* Překlad 'total_items' by měl být v překladových souborech */}
+                {/* Pokud chcete zobrazit také počet vyřešených položek, můžete přidat: */}
+                <p>{t('completed_items')}: {list.Items.filter(item => item.isCompleted).length}</p>
                 <Link style={{ marginRight: '10px', marginBottom: "10px" }} to={`/shoppinglist/${list.id}`} className="btn btn-primary">
                   {t('view_shopping_list')}
                 </Link>
